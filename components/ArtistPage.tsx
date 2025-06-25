@@ -18,10 +18,7 @@ import { Search, Grid, List, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ArtistsPage() {
-  const {
-    artists,
-    loading,
-  } = useArtistContext();
+  const { artists, loading } = useArtistContext();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -104,19 +101,17 @@ export default function ArtistsPage() {
   ]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Head */}
+    <div className="container mx-auto px-4 py-8 text-black dark:text-white">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Browse Artists
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
           Discover talented performers for your next event
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Filters */}
         <div className="lg:col-span-1">
           <FilterBlock
             categories={categories}
@@ -132,35 +127,32 @@ export default function ArtistsPage() {
           />
         </div>
 
-        {/* Artist List */}
         <div className="lg:col-span-3">
           <div className="mb-6 space-y-4">
-            {/* SearchBar */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
               <Input
                 placeholder="Search artists by name, category, or description..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 dark:bg-zinc-900 dark:text-white dark:placeholder:text-gray-400"
               />
             </div>
 
-            {/* Sort and Layout */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div className="flex items-center gap-4">
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-40 dark:bg-zinc-900 dark:text-white">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="dark:bg-zinc-900 dark:text-white">
                     <SelectItem value="name">Name</SelectItem>
                     <SelectItem value="location">Location</SelectItem>
                     <SelectItem value="fee">Fee Range</SelectItem>
                   </SelectContent>
                 </Select>
 
-                <div className="flex items-center border rounded-md">
+                <div className="flex items-center border dark:border-gray-700 rounded-md">
                   <Button
                     variant={layout === "grid" ? "default" : "ghost"}
                     size="sm"
@@ -180,28 +172,29 @@ export default function ArtistsPage() {
                 </div>
               </div>
 
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-gray-600 dark:text-gray-300">
                 {filteredArtists.length} artist
                 {filteredArtists.length !== 1 ? "s" : ""} found
               </div>
             </div>
           </div>
 
-          {/* Loading State */}
           {loading ? (
             <div className="flex justify-center items-center py-20">
-              <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
-              <span className="ml-2 text-gray-500">Loading artists...</span>
+              <Loader2 className="h-6 w-6 animate-spin text-gray-500 dark:text-gray-400" />
+              <span className="ml-2 text-gray-500 dark:text-gray-400">
+                Loading artists...
+              </span>
             </div>
           ) : filteredArtists.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
+              <div className="text-gray-400 dark:text-gray-500 mb-4">
                 <Search className="h-12 w-12 mx-auto" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 No artists found
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Try adjusting your search criteria or filters
               </p>
               <Button onClick={clearFilters} variant="outline">
