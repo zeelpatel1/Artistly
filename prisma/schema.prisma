@@ -1,0 +1,51 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql" // or "mysql" or "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Artist {
+  id           String   @id @default(cuid())
+  name         String
+  bio          String
+  category     String[] 
+  languages    String[] 
+  feeRange     String
+  location     String
+  profileImage String?  
+  status       ArtistStatus @default(pending)
+  createdAt    DateTime @default(now())
+
+  bookingRequests BookingRequest[] 
+}
+
+model BookingRequest {
+  id               String   @id @default(cuid())
+  artistId         String
+  eventPlannerName String
+  eventDate        DateTime
+  eventType        String
+  budget           String
+  location         String
+  status           BookingStatus @default(pending)
+  createdAt        DateTime @default(now())
+
+  artist           Artist   @relation(fields: [artistId], references: [id])
+}
+
+enum ArtistStatus {
+  pending
+  approved
+  rejected
+}
+
+enum BookingStatus {
+  pending
+  accepted
+  declined
+}
